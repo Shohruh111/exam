@@ -151,23 +151,7 @@ func (u *ShopCartRepo) Delete(req *models.ShopCartPrimaryKey) error {
 	return nil
 }
 
-func (u *ShopCartRepo) DateFilter(req *models.ShopCartGetListRequest, id string) ([]*models.ShopCart, error) {
-	var (
-		orderDateFilter []*models.ShopCart
-	)
-	orders, err := u.GetList(req, id)
-	if err != nil {
-		return nil, err
-	}
-	for _, ord := range orders.Orders {
-		if ord.Time >= req.From_date && ord.Time < req.To_date {
-			orderDateFilter = append(orderDateFilter, &ord)
-		}
-	}
 
-	return orderDateFilter, nil
-
-}
 
 func (u *ShopCartRepo) read() (map[string][]models.ShopCart, error) {
 	var (

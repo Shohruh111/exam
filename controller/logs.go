@@ -58,6 +58,41 @@ func (c *Controller) ShopCartHistory() (*models.ShopCartGetListResponse, error) 
 	return nil, nil
 
 }
+func (c *Controller) Sort(req *models.ShopCartGetListRequest) ([]*models.ShopCart, error) {
+	var orderDateFilter []*models.ShopCart
+	getorder, err := c.ShopCartGetList(req, "")
+	if err != nil {
+		return nil, err
+	}
+	for _, ord := range getorder.Orders {
+		orderDateFilter = append(orderDateFilter, &ord)
+
+	}
+	sort.Slice(orderDateFilter, func(i, j int) bool {
+		return orderDateFilter[i].Time < orderDateFilter[j].Time
+	})
+	for _, v := range orderDateFilter {
+		fmt.Println(v)
+	}
+	return orderDateFilter, nil
+}
+func (c *Controller) DateFilter(req *models.ShopCartGetListRequest, id string) ([]*models.ShopCart, error) {
+	var (
+		orderDateFilter []*models.ShopCart
+	)
+	orders, err := c.Strg.ShopCart().GetList(req, id)
+	if err != nil {
+		return nil, err
+	}
+	for _, ord := range orders.Orders {
+		if ord.Time >= req.From_date && ord.Time < req.To_date {
+			orderDateFilter = append(orderDateFilter, &ord)
+		}
+	}
+
+	return orderDateFilter, nil
+
+}
 func (c *Controller) UserTotalPrice(req string) (string, int) {
 	var (
 		totalPrice = 0

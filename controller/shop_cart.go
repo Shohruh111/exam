@@ -63,12 +63,3 @@ func (c *Controller) ShopCartDelete(req *models.ShopCartPrimaryKey) error {
 
 	return nil
 }
-
-func (c *Controller) ShopCartDateFilter(req *models.ShopCartGetListRequest, id string) ([]*models.ShopCart, error) {
-	resp, err := c.Strg.ShopCart().DateFilter(req, id)
-	if err != nil {
-		log.Printf("error while shopCartDateFilter: %v\n", req)
-		return nil, err
-	}
-	return resp, nil
-}

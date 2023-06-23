@@ -40,5 +40,4 @@ type ShopCartRepoI interface {
 	GetList(*models.ShopCartGetListRequest, string) (*models.ShopCartGetListResponse, error)
 	Update(*models.UpdateShopCart, string) (*models.ShopCart, error)
 	Delete(*models.ShopCartPrimaryKey) error
-	DateFilter(*models.ShopCartGetListRequest, string) ([]*models.ShopCart, error)
 }
